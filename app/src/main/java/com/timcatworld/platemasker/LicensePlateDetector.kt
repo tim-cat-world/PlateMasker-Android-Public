@@ -7,7 +7,6 @@ import android.graphics.RectF
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.tensorflow.lite.Interpreter
-import org.tensorflow.lite.nnapi.NnApiDelegate
 import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -18,7 +17,6 @@ import kotlin.math.min
 class LicensePlateDetector(context: Context) {
 
     private val interpreter: Interpreter
-    private val nnApiDelegate: NnApiDelegate? = null
     private val inputSize = 320
     private val inputBuffer: ByteBuffer
     private val pixels = IntArray(inputSize * inputSize)
@@ -107,6 +105,5 @@ class LicensePlateDetector(context: Context) {
 
     fun close() {
         interpreter.close()
-        nnApiDelegate?.close()
     }
 }

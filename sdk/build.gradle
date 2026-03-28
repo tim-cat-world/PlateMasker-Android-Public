@@ -29,9 +29,9 @@ android {
 
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_STL=c++_shared"
-                cppFlags "-Wl,-z,max-page-size=16384"
-                // utils_core をターゲットに追加
+                arguments "-DANDROID_STL=c++_shared",
+                          "-DANDROID_LINKER_FLAGS=-Wl,-z,max-page-size=16384" // 16KB対応
+                cppFlags "-Wl,-z,max-page-size=16384" // 16KB対応
                 targets "opencv_jni_shared", "utils_core"
             }
         }
@@ -39,6 +39,7 @@ android {
     
     buildFeatures {
         buildConfig true
+        prefabPublishing true
     }
 
     compileOptions {
@@ -52,6 +53,7 @@ android {
 
     packaging {
         jniLibs {
+            // 16KBページサイズ対応のために必須の設定
             useLegacyPackaging = false
         }
     }
@@ -86,16 +88,10 @@ android {
         }
     }
     
-    buildFeatures {
-        prefabPublishing true
-        buildConfig true
-    }
-
     prefab {
         opencv_jni_shared {
             headers 'native/jni/include'
         }
-        // utils_core も prefab として公開（必要に応じて）
         utils_core {
             headers 'native/jni/include'
         }
@@ -107,7 +103,6 @@ android {
             withJavadocJar()
         }
     }
-
 }
 
 publishing {

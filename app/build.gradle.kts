@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-// local.propertiesを読み込むための準備
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
@@ -28,7 +27,6 @@ android {
 
     buildTypes {
         debug {
-            // テスト用ID（デバッグ時はテスト広告を表示）
             manifestPlaceholders["admob_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "BANNER_AD_UNIT_ID", "\"ca-app-pub-3940256099942544/6300978111\"")
         }
@@ -38,7 +36,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // local.propertiesから本番用IDを読み込む（無い場合はテスト用をフォールバックとして設定）
             val admobAppId = localProperties.getProperty("admob.app.id") ?: "ca-app-pub-3940256099942544~3347511713"
             val bannerAdUnitId = localProperties.getProperty("admob.banner.unit.id") ?: "ca-app-pub-3940256099942544/6300978111"
             
@@ -86,8 +83,16 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("com.google.ai.edge.litert:litert:1.0.1")
-    implementation("com.google.ai.edge.litert:litert-support:0.1.0")
+    
+    // 最新の LiteRT 2.1.3 を使用し、競合する古い API を除外
+    implementation("com.google.ai.edge.litert:litert:2.1.3") {
+        exclude(group = "com.google.ai.edge.litert", module = "litert-api")
+    }
+    // Support ライブラリも最新の安定版へ
+    implementation("com.google.ai.edge.litert:litert-support:1.4.2") {
+        exclude(group = "com.google.ai.edge.litert", module = "litert-api")
+    }
+
     implementation(project(":opencv"))
     implementation(libs.play.services.ads)
     testImplementation(libs.junit)
