@@ -1,0 +1,51 @@
+# --- Android Studio / IntelliJ ---
+.idea/
+*.iml
+.gradle/
+.kotlin/
+build/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+**/intermediates/
+**/outputs/
+**/generated/
+*.ipr
+*.iws
+
+# --- OS generated files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Local configs (SECRET) ---
+local.properties
+google-services.json
+
+# --- Signing files (SECRET) ---
+*.jks
+*.keystore
+*.p12
+*.key
+*.pub
+*.pem
+
+# --- Build artifacts ---
+*.apk
+*.aab
+/app/release/
+
+# --- OpenCV SDK / Native ---
+/sdk/opencv-4.12.0-android-sdk/
+*.a
+*.so
+/sdk/native/3rdparty/
+
+# --- Others ---
+*.log
+.navigation/
